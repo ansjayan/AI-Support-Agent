@@ -27,8 +27,13 @@ from strands.tools.mcp.mcp_client import MCPClient
 from mcp.client.streamable_http import streamable_http_client
 import argparse, json
 import os, asyncio, boto3
+
 from strands.hooks import (
-    HookProvider, AfterInvocationEvent, HookRegistry, MessageAddedEvent,
+    HookProvider,
+    AfterInvocationEvent,
+    AfterToolCallEvent,
+    HookRegistry,
+    MessageAddedEvent,
 )
 import os
 
@@ -384,6 +389,44 @@ class MemoryHook(HookProvider):
         )
 
 
+class LoyaltyResultHook(HookProvider):
+    """Capture the authoritative loyalty tool result."""
+
+    def __init__(self):
+        self.result = None
+
+    def capture_loyalty_result(self, event: AfterToolCallEvent):
+        """Store the exact result returned by calculate_loyalty_discount."""
+        tool_name = event.tool_use.get("name")
+
+        if tool_name != "calculate_loyalty_discount":
+            return
+
+        if event.exception is not None:
+            return
+
+        result = event.result
+
+        if not isinstance(result, dict):
+            return
+
+        content = result.get("content", [])
+
+        for block in content:
+            if isinstance(block, dict) and block.get("text"):
+                self.result = block["text"]
+                return
+
+    def register_hooks(self, registry: HookRegistry) -> None:  # type: ignore
+        registry.add_callback(
+            AfterToolCallEvent,
+            self.capture_loyalty_result,
+        )
+
+
+
+
+
 # ── TODO 6 — Knowledge Base Tool ─────────────────────────────────────────────
 # Implement search_knowledge_base(query) using the @tool decorator.
 #
@@ -615,6 +658,28 @@ print(json.dumps(result))
                 result = event.get("result")
 
                 if result is not None:
+                    # Code Interpreter places the program's printed JSON in stdout.
+                    structured = result.get("structuredContent", {})
+                    stdout = structured.get("stdout", "").strip()
+
+                if stdout:
+                    # Validate Code Interpreter output.
+                    parsed = json.loads(stdout)
+
+                    # Return the authoritative calculated values in a format that the
+                    # model can copy directly without performing any arithmetic itself.
+                    return (
+                        "Here is your Gold loyalty discount calculation:\n\n"
+                        f"- Points redeemed: {parsed['points_redeemed']}\n"
+                        f"- Points discount: ${parsed['points_discount']:.2f}\n"
+                        f"- Gold tier discount ({parsed['tier_discount_pct']:.0f}%): "
+                        f"${parsed['tier_discount']:.2f}\n"
+                        f"- Total savings: ${parsed['total_savings']:.2f}\n"
+                        f"- Final total: ${parsed['final_total']:.2f}\n"
+                        f"- Points earned: {parsed['points_earned']}\n"
+                        f"- Remaining points: {parsed['remaining_points']}"
+                    )
+
                     return json.dumps(result)
 
             return json.dumps({
@@ -708,7 +773,7 @@ async def invoke(payload, context=None):
             memory_client=memory_client,
             memory_id=MEMORY_ID,
         )
-
+        loyalty_hook = LoyaltyResultHook()
         # Managed AgentCore Browser.
 
 
@@ -806,7 +871,7 @@ BROWSER WORKFLOW:
             agent = Agent(
                 model=model,
                 tools=tools,
-                hooks=[memory_hook],
+                hooks=[memory_hook, loyalty_hook],
                 system_prompt=system_prompt,
             )
 
@@ -822,7 +887,12 @@ BROWSER WORKFLOW:
 
             mcp_client.stop(None, None, None)
 
-            
+        # Loyalty calculations contain deterministic financial values produced by
+        # Code Interpreter. Return the exact tool result instead of allowing the
+        # language model to reinterpret those values.
+        if loyalty_hook.result:
+            return loyalty_hook.result    
+        
         # Strands responses normally expose the final message as:
         # response.message["content"][0]["text"]
         if hasattr(response, "message"):
