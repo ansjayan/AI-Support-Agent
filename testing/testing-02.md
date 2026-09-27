@@ -1,3 +1,17 @@
+# Test 2 — Refund Processing via Deployed AgentCore Runtime
+
+## Purpose
+
+Verify that the deployed Amazon Bedrock AgentCore Runtime can process a refund using the Lambda-backed Gateway integration.
+
+## Invocation
+
+```powershell
+
+agentcore --% invoke -s refund-processing-000000000000002 {"prompt":"Process a refund for order ORD-002 for customer CUST-001. The item is Kindle Paperwhite, amount $139.99, reason: customer changed their mind. Tell me the refund status, refund ID, amount, and processing time."}
+
+
+
 @'
 {
   "prompt": "I want a refund for order ORD-002. The Kindle Paperwhite arrived damaged.",

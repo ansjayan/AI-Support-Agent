@@ -1,3 +1,16 @@
+# Test 1 — Order Tracking via Deployed AgentCore Runtime
+
+## Purpose
+
+Verify that the deployed Amazon Bedrock AgentCore Runtime can use the API-backed Gateway order-tracking integration.
+
+## Invocation
+
+```powershell
+
+agentcore --% invoke -s order-tracking-000000000000000001 {"prompt":"Please look up order ORD-001 and tell me its current status, tracking number, carrier, and estimated delivery date."}
+
+
 @'
 {
   "prompt": "Where is my order ORD-001?",

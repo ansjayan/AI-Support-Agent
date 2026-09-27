@@ -1,0 +1,9 @@
+Command:
+agentcore --% invoke {"prompt":"Hello! Please introduce yourself briefly."}
+
+Response:
+Hello! I'm an AI-powered customer support assistant designed to help you with any questions or concerns you might have regarding your orders, refunds, products, or any other Amazon-related topics.
+
+I have access to order details, can assist with refunds, provide product information, and help navigate various support topics. Whether you're checking on an order status, need help with a return, want to learn more about a product feature, or have questions about your account, I'm here to assist.
+
+How can I help you today?

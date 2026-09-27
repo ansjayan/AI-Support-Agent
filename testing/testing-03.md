@@ -1,3 +1,17 @@
+# Test 3 — Knowledge Base Retrieval via Deployed AgentCore Runtime
+
+## Purpose
+
+Verify that the deployed agent can retrieve loyalty-program information from the CustomerSupportKB Knowledge Base.
+
+## Invocation
+
+```powershell
+
+agentcore --% invoke -s KnowledgeBaseRetrieval-0000000003 {"prompt":"What benefits do Platinum loyalty members receive? Include shipping, discount, and customer support benefits."}
+
+
+
 @'
 {
   "prompt": "What benefits do Platinum loyalty members receive?",

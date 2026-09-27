@@ -1,3 +1,17 @@
+# Test 6 — Browser Tool via Deployed AgentCore Runtime
+
+## Purpose
+
+Verify that the deployed AgentCore agent can use the Browser tool to access a public web page and retrieve its page title.
+
+## Invocation
+
+```powershell
+
+agentcore --% invoke -s browser-tool-00000000000000000006- {"prompt":"Use the browser tool to visit https://www.amazon.com and tell me the page title."}
+
+
+
 @'
 {
   "prompt": "Use the browser tool to visit https://www.amazon.com and tell me the page title.",

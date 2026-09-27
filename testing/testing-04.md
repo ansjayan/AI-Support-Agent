@@ -1,3 +1,37 @@
+# Test 4 — Cross-Session Memory via Deployed AgentCore Runtime
+
+## Purpose
+
+Verify that AgentCore Memory stores customer information and user preferences and retrieves them in a different runtime session.
+
+The test uses:
+
+- Same customer: `CUST-MEMORY-001`
+- Session A: `memory-test-session-A-000000000000000001`
+- Session B: `memory-test-session-B-000000000000000002`
+
+The second prompt does not provide the customer's name or response preference.
+
+## Session A — Store Memory
+
+### Invocation
+
+```powershell
+
+agentcore --% invoke -s memory-test-session-A-0000000004a {"prompt":"My name is Jane. I prefer concise responses. Please remember these preferences.","customer_id":"CUST-MEMORY-004"}
+
+## Session B — Retrieve Memory in a Different Session
+### Invocation
+
+```powershell
+
+agentcore --% invoke -s memory-test-session-B-0000000004b {"prompt":"What is my name and how do I prefer you to respond? Answer briefly.","customer_id":"CUST-MEMORY-004"}
+
+
+
+
+
+
 @'
 {
   "prompt": "My name is Jane and I prefer concise responses. Please remember this preference.",

@@ -1,3 +1,17 @@
+# Test 5 — Loyalty Calculation via Deployed AgentCore Runtime
+
+## Purpose
+
+Verify that the deployed AgentCore agent performs the Gold loyalty calculation using Code Interpreter and returns deterministic calculation results.
+
+## Invocation
+
+```powershell
+
+agentcore --% invoke -s loyalty-calculation-0000000000005 {"prompt":"I am a Gold loyalty member with 4250 points and I have a $150 standard order. Calculate the best loyalty discount, including points redeemed, points discount, Gold tier discount, total savings, final total, points earned, and remaining points."}
+
+
+
 @'
 {
   "prompt": "I am a Gold loyalty member with 4250 points. My order total is 150 dollars and the product category is standard. Calculate my loyalty discount, final total, points redeemed, points earned, and remaining points.",
