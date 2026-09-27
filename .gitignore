@@ -1,50 +1,116 @@
-# Python
-__pycache__/
-*.py[cod]
-*.pyo
+# ============================================================
+# AI Support Agent - Git Ignore
+# ============================================================
 
-# Virtual environment
-.venv/
-venv/
-
-# Environment variables / secrets
+# ------------------------------------------------------------
+# Secrets / credentials
+# NEVER commit these
+# ------------------------------------------------------------
 .env
 .env.*
+!.env.example
 *.pem
 *.key
 
-# AWS / AgentCore generated local files
-.bedrock_agentcore.yaml
+# ------------------------------------------------------------
+# Python virtual environments
+# ------------------------------------------------------------
+.venv/
+venv/
+env/
+ENV/
 
-# IDE
-.vscode/
-.idea/
+# ------------------------------------------------------------
+# Python cache / compiled files
+# ------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
 
-# OS
-.DS_Store
-Thumbs.db
-
-# Build artifacts
+# ------------------------------------------------------------
+# Build / packaging artifacts
+# ------------------------------------------------------------
 build/
 dist/
 *.egg-info/
+.eggs/
 
-# Temporary files
-*.tmp
-*.log
+# ------------------------------------------------------------
+# AgentCore runtime dependency package
+# Rebuildable and potentially very large
+# ------------------------------------------------------------
+runtime-package-final/
 
-# Local backup
-workspace_backup.zip
-# AgentCore local state
+# ------------------------------------------------------------
+# Temporary AgentCore invocation payloads / outputs
+# ------------------------------------------------------------
+payload-*.json
+output-*.json
+cli-test-*.json
+v*-loyalty*-output.json
+
+
+# ------------------------------------------------------------
+# AgentCore local generated state
+# ------------------------------------------------------------
 .bedrock_agentcore/
 
-# Runtime/deployment packages
-runtime-package/
-runtime-package-*/
-customer_support_agent*.zip
 
-# Starter/reference archives
-cd14763-project-starter-main.zip
 
-# Local deployment helper
-make_runtime_zip.py
+# ------------------------------------------------------------
+# Temporary extraction / verification directories
+# ------------------------------------------------------------
+zip-final-check/
+tmp/
+temp/
+
+# ------------------------------------------------------------
+# Logs
+# ------------------------------------------------------------
+*.log
+logs/
+
+# ------------------------------------------------------------
+# Jupyter
+# ------------------------------------------------------------
+.ipynb_checkpoints/
+
+# ------------------------------------------------------------
+# IDE / editor files
+# ------------------------------------------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ------------------------------------------------------------
+# Operating system files
+# ------------------------------------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ------------------------------------------------------------
+# Keep project backup artifacts
+# ------------------------------------------------------------
+# Intentionally NOT ignoring:
+#
+# json/*.json
+# zip/*.zip
+# project-starter/*.zip
+# project-starter/*.pdf
+# images/*.jpg
+# images/*.png
+# docs/*.md
+# testing/*.md
+# support_python_files/*.py
+#
+# These are part of the long-term project backup.
+# Large AgentCore deployment package (GitHub 100 MB limit)
+zip/customer_support_agent_final.zip
