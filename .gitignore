@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environment
+.venv/
+venv/
+
+# Environment variables / secrets
+.env
+.env.*
+*.pem
+*.key
+
+# AWS / AgentCore generated local files
+.bedrock_agentcore.yaml
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# Temporary files
+*.tmp
+*.log
+
+# Local backup
+workspace_backup.zip
+# AgentCore local state
+.bedrock_agentcore/
+
+# Runtime/deployment packages
+runtime-package/
+runtime-package-*/
+customer_support_agent*.zip
+
+# Starter/reference archives
+cd14763-project-starter-main.zip
+
+# Local deployment helper
+make_runtime_zip.py

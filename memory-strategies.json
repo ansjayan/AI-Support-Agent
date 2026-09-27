@@ -1,0 +1,20 @@
+[
+  {
+    "semanticMemoryStrategy": {
+      "name": "customer_facts",
+      "description": "Stores long-term customer facts for the support agent",
+      "namespaceTemplates": [
+        "cs_agent/{actorId}/facts"
+      ]
+    }
+  },
+  {
+    "userPreferenceMemoryStrategy": {
+      "name": "customer_preferences",
+      "description": "Stores customer communication and support preferences",
+      "namespaceTemplates": [
+        "cs_agent/{actorId}/preferences"
+      ]
+    }
+  }
+]

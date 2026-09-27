@@ -1,0 +1,6 @@
+bedrock-agentcore>=1.4.1
+strands-agents>=1.28.0
+strands-agents-tools>=0.2.21
+boto3
+nest_asyncio
+playwright
